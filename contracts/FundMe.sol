@@ -23,10 +23,16 @@ contract FundMe {
         _;
     }
 
-    constructor() {
-        priceFeed = AggregatorV3Interface(
-            0x694AA1769357215DE4FAC081bf1f309aDC325306
-        );
+    receive() external payable {
+        Fund();
+    }
+
+    fallback() external payable {
+        Fund();
+    }
+
+    constructor(address priceFeedAddress) {
+        priceFeed = AggregatorV3Interface(priceFeedAddress);
         i_owner = msg.sender;
     }
 
@@ -60,5 +66,9 @@ contract FundMe {
 
     function getFunder(uint256 index) public view returns (address) {
         return funders[index];
+    }
+
+    function getPriceFeed() public view returns (AggregatorV3Interface) {
+        return priceFeed;
     }
 }

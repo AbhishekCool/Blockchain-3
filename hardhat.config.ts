@@ -3,6 +3,9 @@ import "@nomicfoundation/hardhat-toolbox";
 import 'hardhat-gas-reporter'
 import 'solidity-coverage'
 import dotenv from 'dotenv'
+import 'hardhat-deploy'
+import 'hardhat-deploy-ethers'
+import '@nomicfoundation/hardhat-ethers'
 
 dotenv.config(
   {
@@ -23,13 +26,23 @@ const config: HardhatUserConfig = {
       accounts: [
         process.env.LOCALHOST_PRIVATE_KEY as string,
       ],
+      chainId: 31337,
     },
     "sepolia": {
       url: process.env.SEPOLIA_RPC_URL as string,
       accounts: [
-        process.env.SEPOLIA_PRIVATE_URL as string,
-      ]
+        process.env.SEPOLIA_PRIVATE_KEY as string,
+      ],
+      chainId: 11155111
     }
+  },
+  namedAccounts: {
+    deployer: {
+      default: 0,
+    }
+  },
+  etherscan: {
+    apiKey: process.env.ETHERSCAN_API_KEY
   }
 };
 
